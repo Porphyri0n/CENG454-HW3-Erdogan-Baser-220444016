@@ -1,6 +1,6 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
-public class Enemy : MonoBehaviour, IDamageable
+public class Enemy : MonoBehaviour, IDamageable, IResettable
 {
     [SerializeField] private int maxHealth = 20;
     [SerializeField] private float moveSpeed = 3f;
@@ -8,31 +8,32 @@ public class Enemy : MonoBehaviour, IDamageable
 
     private int currentHealth;
     public Transform targetCore;
-
-    // Strateji arayüzü
     private IEnemyMovement movementStrategy;
+
+    public ObjectPool myPool;
 
     public bool IsDead => currentHealth <= 0;
 
     private void Start()
     {
-        currentHealth = maxHealth;
-
-        // Þimdilik varsayýlan bir strateji atýyoruz. Aþama 3'te Spawner üzerinden atanacak.
+        ResetState();
         SetMovementStrategy(new DirectRushStrategy());
     }
 
-    // Strateji çalýþma zamanýnda (Runtime) dýþarýdan deðiþtirilebilir
     public void SetMovementStrategy(IEnemyMovement strategy)
     {
         movementStrategy = strategy;
+    }
+
+    public void ResetState()
+    {
+        currentHealth = maxHealth;
     }
 
     private void Update()
     {
         if (targetCore != null && movementStrategy != null && !IsDead)
         {
-            // Düþman nasýl hareket ettiðini bilmez, strateji sýnýfý bu iþi çözer.
             movementStrategy.Move(transform, targetCore, moveSpeed);
         }
     }
@@ -50,11 +51,16 @@ public class Enemy : MonoBehaviour, IDamageable
 
     private void Die()
     {
-        // Þimdilik nesneyi yok ediyoruz, Aþama 3'te Object Pool'a (Havuza) geri göndereceðiz.
-        Destroy(gameObject);
+        if (myPool != null)
+        {
+            myPool.ReturnToPool(gameObject);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 
-    // Çekirdeðe temas ettiðinde hasar ver
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Core"))
@@ -63,7 +69,7 @@ public class Enemy : MonoBehaviour, IDamageable
             if (coreDamageable != null)
             {
                 coreDamageable.TakeDamage(damageToCore);
-                Die(); // Kamikaze mantýðý, hasar verince ölür
+                Die();
             }
         }
     }
