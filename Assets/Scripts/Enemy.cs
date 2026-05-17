@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class Enemy : MonoBehaviour, IDamageable, IResettable
 {
@@ -17,7 +17,6 @@ public class Enemy : MonoBehaviour, IDamageable, IResettable
     private void Start()
     {
         ResetState();
-        SetMovementStrategy(new DirectRushStrategy());
     }
 
     public void SetMovementStrategy(IEnemyMovement strategy)
@@ -28,6 +27,14 @@ public class Enemy : MonoBehaviour, IDamageable, IResettable
     public void ResetState()
     {
         currentHealth = maxHealth;
+        if (Random.value > 0.5f)
+        {
+            SetMovementStrategy(new DirectRushStrategy());
+        }
+        else
+        {
+            SetMovementStrategy(new ZigZagStrategy());
+        }
     }
 
     private void Update()
