@@ -1,15 +1,12 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
 
 public class GameUIManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private GameObject gameOverPanel;
 
-    // Ödev belgesindeki "Lifecycle" uyarýsýna istinaden abonelikler
-    // OnEnable ve OnDisable içinde kesinlikle yönetilmelidir.
     private void OnEnable()
     {
         Core.OnCoreHealthChanged += UpdateHealthUI;
@@ -18,7 +15,6 @@ public class GameUIManager : MonoBehaviour
 
     private void OnDisable()
     {
-        // Hayalet abonelikleri (Ghost subscribers) önlemek için abonelikten çýkýyoruz
         Core.OnCoreHealthChanged -= UpdateHealthUI;
         Core.OnCoreDestroyed -= ShowGameOverUI;
     }
@@ -27,7 +23,7 @@ public class GameUIManager : MonoBehaviour
     {
         if (healthText != null)
         {
-            healthText.text = $"Çekirdek Bütünlüðü: {currentHealth} / {maxHealth}";
+            healthText.text = "Core Integrity: " + currentHealth + " / " + maxHealth;
         }
     }
 
