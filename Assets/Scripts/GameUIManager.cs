@@ -23,7 +23,7 @@ public class GameUIManager : MonoBehaviour
     {
         if (healthText != null)
         {
-            healthText.text = "Ã‡ekirdek BÃ¼tÃ¼nlÃ¼ÄŸÃ¼: " + currentHealth + " / " + maxHealth;
+            healthText.text = "Core Integrity: " + currentHealth + " / " + maxHealth;
         }
     }
 

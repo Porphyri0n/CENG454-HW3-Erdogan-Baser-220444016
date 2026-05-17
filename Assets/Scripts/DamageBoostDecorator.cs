@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DamageBoostDecorator : WeaponDecorator
 {
@@ -16,6 +16,6 @@ public class DamageBoostDecorator : WeaponDecorator
     public override void Fire()
     {
         base.Fire();
-        Debug.Log("Bonus Hasar Aktif!");
+        Debug.Log("Bonus Damage Active!");
     }
 }

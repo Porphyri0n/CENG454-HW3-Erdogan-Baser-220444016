@@ -11,6 +11,6 @@ public class BaseTurret : IWeapon
 
     public void Fire()
     {
-        Debug.Log("Turret AteÅŸ Ediyor. Hasar: " + GetDamage());
+        Debug.Log("Turret Firing. Damage: " + GetDamage());
     }
 }

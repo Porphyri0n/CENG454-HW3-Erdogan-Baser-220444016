@@ -27,7 +27,7 @@ public class Core : MonoBehaviour, IDamageable
 
         if (IsDead)
         {
-            Debug.Log("Ã‡ekirdek YÄ±kÄ±ldÄ±! Oyun Kaybedildi.");
+            Debug.Log("Core Destroyed! Game Over.");
             OnCoreDestroyed?.Invoke();
         }
     }
