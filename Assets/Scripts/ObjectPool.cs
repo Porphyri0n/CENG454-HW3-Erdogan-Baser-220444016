@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
@@ -18,6 +18,21 @@ public class ObjectPool : MonoBehaviour
     {
         poolQueue = new Queue<GameObject>();
         InitializePool();
+    }
+
+    private void OnEnable()
+    {
+        SurvivalTimer.OnTimeSurvived += StopSpawning;
+    }
+
+    private void OnDisable()
+    {
+        SurvivalTimer.OnTimeSurvived -= StopSpawning;
+    }
+
+    private void StopSpawning()
+    {
+        CancelInvoke(nameof(SpawnRoutine));
     }
 
     private void Start()
